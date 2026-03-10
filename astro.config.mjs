@@ -8,6 +8,7 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   image: {
-    domains: ["imag.samenoko.work"]
+    domains: ["imag.samenoko.work"],
+    remotePatterns: [{ protocol: "https" }]
   }
 });
