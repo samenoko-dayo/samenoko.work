@@ -14,7 +14,7 @@ const latestPosts = posts.slice(0, 3);
 const displayPosts = featuredPosts.length > 0 ? featuredPosts : latestPosts;
 
 const allTags = [
-    ...new Set(posts.flatMap((post) => post.data.tags ?? [])),
+    ...new Set(posts.flatMap((post) => post.data.tags ?? []).map((t) => t.tag)),
 ].sort((a, b) => a.localeCompare(b, "ja"));
 
 const formatDate = (date: Date) =>

@@ -5,7 +5,7 @@ import { z } from "astro/zod";
 const blog = defineCollection({
   loader: glob({
     base: "./src/content/blog",
-    pattern: "**/index.md",
+    pattern: "**/*.md",
   }),
   schema: ({ image }) =>
     z.object({
@@ -14,7 +14,7 @@ const blog = defineCollection({
       pubDate: z.coerce.date(),
       updatedDate: z.coerce.date().optional(),
       heroImage: image().optional(),
-      tags: z.array(z.string()).default([]),
+      tags: z.array(z.object({tag: z.string()})).default([]),
       draft: z.boolean().default(false),
       author: z.string().default("samenoko"),
       featured: z.boolean().default(false),

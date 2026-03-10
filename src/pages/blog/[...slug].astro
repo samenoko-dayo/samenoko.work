@@ -76,7 +76,7 @@ const nextPost =
           {
             post.data.tags.map((tag) => (
               <a
-                href={`/tags/${encodeURIComponent(tag.toLowerCase())}/`}
+                href={`/tags/${encodeURIComponent(tag.tag.toLowerCase())}/`}
                 class="badge badge-outline"
               >
                 {tag}

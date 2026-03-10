@@ -9,9 +9,9 @@ export async function getStaticPaths() {
 
     for (const post of posts) {
         for (const tag of post.data.tags) {
-            const slug = tag.toLowerCase();
+            const slug = tag.tag.toLowerCase();
             if (!tagMap.has(slug)) {
-                tagMap.set(slug, tag);
+                tagMap.set(slug, tag.tag);
             }
         }
     }
@@ -29,7 +29,7 @@ const allPosts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
 );
 
 const posts = allPosts.filter((post) =>
-    post.data.tags.some((tag) => tag.toLowerCase() === tagSlug),
+    post.data.tags.some((tag) => tag.tag.toLowerCase() === tagSlug),
 );
 
 const formatDate = (date: Date) =>
@@ -95,10 +95,10 @@ const formatDate = (date: Date) =>
                                 <div class="mt-2 flex flex-wrap gap-1">
                                     {post.data.tags.map((tag) => (
                                         <a
-                                            href={`/tags/${encodeURIComponent(tag.toLowerCase())}/`}
+                                            href={`/tags/${encodeURIComponent(tag.tag.toLowerCase())}/`}
                                             class:list={[
                                                 "badge badge-sm",
-                                                tag.toLowerCase() === tagSlug
+                                                tag.tag.toLowerCase() === tagSlug
                                                     ? "badge-primary"
                                                     : "badge-ghost",
                                             ]}

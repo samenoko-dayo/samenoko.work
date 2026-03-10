@@ -10,7 +10,7 @@ const tagMap = new Map<string, number>();
 
 for (const post of posts) {
     for (const tag of post.data.tags) {
-        tagMap.set(tag, (tagMap.get(tag) ?? 0) + 1);
+        tagMap.set(tag.tag, (tagMap.get(tag.tag) ?? 0) + 1);
     }
 }
 
