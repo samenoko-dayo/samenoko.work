@@ -1,6 +1,9 @@
 ---
 import "../styles/app.css";
 import Header from "../components/Header.astro";
+import Footer from '../components/Footer.astro';
+import '@fontsource-variable/inter';
+import '@fontsource-variable/noto-sans-jp';
 
 interface Props {
     title?: string;
@@ -63,5 +66,6 @@ const canonicalUrl = site
         <main>
             <slot />
         </main>
+        <Footer />
     </body>
 </html>

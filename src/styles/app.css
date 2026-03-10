@@ -1,3 +1,7 @@
 @import "tailwindcss";
 @plugin "daisyui";
 @plugin "@tailwindcss/typography";
+
+@theme {
+    --default-font-family: 'Inter', 'Inter Variable', 'Noto Sans JP', 'Noto Sans JP Variable', sans-serif;
+}
