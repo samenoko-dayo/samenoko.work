@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "media": {
+    "storagePath": "public/images",
+    "publicPath": "/images"
+  },
+  "collections": [
+    {
+      "name": "blog",
+      "label": "ブログ記事",
+      "description": "Astro の blog コレクション用コンテンツ",
+      "path": "src/content/blog",
+      "extension": "md",
+      "fields": [
+        {
+          "type": "text",
+          "name": "title",
+          "label": "タイトル",
+          "required": true
+        },
+        {
+          "type": "textarea",
+          "name": "description",
+          "label": "説明",
+          "required": true,
+          "maxLength": 300
+        },
+        {
+          "type": "date",
+          "name": "pubDate",
+          "label": "公開日",
+          "required": true,
+          "includeTime": true,
+          "default": "now"
+        },
+        {
+          "type": "date",
+          "name": "updatedDate",
+          "label": "更新日",
+          "includeTime": true
+        },
+        {
+          "type": "image",
+          "name": "heroImage",
+          "label": "ヒーロー画像"
+        },
+        {
+          "type": "checkbox",
+          "name": "tags",
+          "label": "タグ",
+          "default": []
+        },
+        {
+          "type": "boolean",
+          "name": "draft",
+          "label": "下書き",
+          "default": false
+        },
+        {
+          "type": "text",
+          "name": "author",
+          "label": "著者",
+          "default": "samenoko"
+        },
+        {
+          "type": "boolean",
+          "name": "featured",
+          "label": "注目記事",
+          "default": false
+        },
+        {
+          "type": "richtext",
+          "name": "content",
+          "label": "本文",
+          "required": true
+        }
+      ],
+      "layout": [
+        ["title"],
+        ["description"],
+        ["pubDate", "updatedDate"],
+        ["author"],
+        ["draft", "featured"],
+        ["heroImage"],
+        ["tags"],
+        ["content"]
+      ],
+      "pit": {
+        "title": "title",
+        "body": "content",
+        "updatedAt": "updatedDate",
+        "draft": "draft",
+        "defaultSortField": "_updatedAt",
+        "defaultSortOrder": "desc"
+      }
+    }
+  ]
+}
