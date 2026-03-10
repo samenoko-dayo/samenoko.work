@@ -1,0 +1,139 @@
+---
+const navItems = [
+    { href: "/", label: "Home" },
+    { href: "/blog", label: "Blog" },
+    { href: "/tags", label: "Tags" },
+    { href: "/about", label: "About" },
+];
+
+const currentPath = Astro.url.pathname;
+
+import { Sun, Moon } from "@lucide/astro";
+---
+
+<header
+    class="sticky top-0 z-50 border-b border-base-300/60 bg-base-100/80 backdrop-blur"
+>
+    <div class="navbar mx-auto max-w-6xl px-4">
+        <!-- left -->
+        <div class="navbar-start">
+            <a href="/" class="text-xl font-bold tracking-tight">
+                samenoko.work
+            </a>
+        </div>
+
+        <!-- center: desktop nav -->
+        <div class="navbar-center hidden md:flex">
+            <ul class="menu menu-horizontal gap-1 px-1">
+                {
+                    navItems.map((item) => (
+                        <li>
+                            <a
+                                href={item.href}
+                                class:list={[
+                                    "rounded-btn",
+                                    currentPath === item.href &&
+                                        "active font-semibold",
+                                ]}
+                            >
+                                {item.label}
+                            </a>
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+
+        <!-- right -->
+        <div class="navbar-end gap-2">
+            <label class="swap swap-rotate">
+                <!-- this hidden checkbox controls the state -->
+                <input
+                    id="theme-toggle"
+                    type="checkbox"
+                    aria-label="テーマ切り替え"
+                />
+
+                <!-- sun -->
+                <Sun class="swap-off" />
+
+                <!-- moon -->
+                <Moon class="swap-on" />
+            </label>
+
+            <!-- mobile dropdown -->
+            <div class="dropdown dropdown-end md:hidden">
+                <label
+                    tabindex="0"
+                    class="btn btn-ghost btn-circle"
+                    aria-label="メニュー"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </label>
+
+                <ul
+                    tabindex="0"
+                    class="menu dropdown-content z-[60] mt-3 w-52 rounded-box border border-base-300 bg-base-100 p-2 shadow"
+                >
+                    {
+                        navItems.map((item) => (
+                            <li>
+                                <a
+                                    href={item.href}
+                                    class:list={[
+                                        currentPath === item.href &&
+                                            "active font-semibold",
+                                    ]}
+                                >
+                                    {item.label}
+                                </a>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+
+<script is:inline>
+    const applyTheme = (theme) => {
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.setItem("theme", theme);
+    };
+
+    const syncToggle = () => {
+        const toggle = document.getElementById("theme-toggle");
+        if (!(toggle instanceof HTMLInputElement)) return;
+        toggle.checked =
+            document.documentElement.getAttribute("data-theme") === "dark";
+    };
+
+    const setupThemeToggle = () => {
+        const toggle = document.getElementById("theme-toggle");
+        if (!(toggle instanceof HTMLInputElement)) return;
+
+        syncToggle();
+
+        toggle.onchange = () => {
+            applyTheme(toggle.checked ? "dark" : "light");
+        };
+    };
+
+    setupThemeToggle();
+
+    document.addEventListener("astro:page-load", setupThemeToggle);
+    document.addEventListener("astro:after-swap", syncToggle);
+</script>

@@ -1,0 +1,188 @@
+---
+import { Image } from "astro:assets";
+import { getCollection, render } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => {
+    return import.meta.env.PROD ? data.draft !== true : true;
+  });
+
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString("ja-JP", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+
+const published = formatDate(post.data.pubDate);
+const updated = post.data.updatedDate
+  ? formatDate(post.data.updatedDate)
+  : null;
+
+const allPosts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
+);
+
+const currentIndex = allPosts.findIndex((entry) => entry.id === post.id);
+const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
+const nextPost =
+  currentIndex >= 0 && currentIndex < allPosts.length - 1
+    ? allPosts[currentIndex + 1]
+    : null;
+---
+
+<Layout
+  title={post.data.title}
+  description={post.data.description}
+  ogImage={post.data.heroImage?.src}
+  ogType="article"
+>
+  <section class="mx-auto w-full max-w-6xl px-4 py-10 md:py-14">
+    {
+      post.data.heroImage && (
+        <figure class="mb-8 overflow-hidden rounded-box border border-base-300">
+          <Image
+            src={post.data.heroImage}
+            alt={post.data.title}
+            class="h-auto w-full object-cover aspect-21/9"
+            loading="eager"
+            inferSize
+          />
+        </figure>
+      )
+    }
+
+    <div class="mx-auto max-w-3xl">
+      <nav class="mb-6 text-sm text-base-content/60">
+        <a href="/" class="link link-hover">ホーム</a>
+        <span class="mx-2">/</span>
+        <a href="/blog" class="link link-hover">記事</a>
+        <span class="mx-2">/</span>
+        <span>{post.data.title}</span>
+      </nav>
+
+      <header class="mb-10">
+        <div class="flex flex-wrap gap-2">
+          {
+            post.data.tags.map((tag) => (
+              <a
+                href={`/tags/${encodeURIComponent(tag.toLowerCase())}/`}
+                class="badge badge-outline"
+              >
+                {tag}
+              </a>
+            ))
+          }
+        </div>
+
+        <h1 class="mt-4 text-3xl font-bold leading-tight md:text-4xl">
+          {post.data.title}
+        </h1>
+
+        <p class="mt-4 leading-8 text-base-content/75">
+          {post.data.description}
+        </p>
+
+        <div
+          class="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm text-base-content/60"
+        >
+          <span>公開日: {published}</span>
+          {updated && <span>更新日: {updated}</span>}
+          <span>著者: {post.data.author}</span>
+        </div>
+      </header>
+
+      {
+        headings.length > 0 && (
+          <section class="mb-10 rounded-box border border-base-300 bg-base-100 p-5">
+            <h2 class="font-bold">目次</h2>
+
+            <ol class="mt-3 space-y-2 text-sm text-base-content/75">
+              {headings
+                .filter((heading) => heading.depth <= 3)
+                .map((heading) => (
+                  <li class:list={[heading.depth === 3 && "pl-4"]}>
+                    <a href={`#${heading.slug}`} class="link link-hover">
+                      {heading.text}
+                    </a>
+                  </li>
+                ))}
+            </ol>
+          </section>
+        )
+      }
+
+      <article
+        class="prose prose-neutral max-w-none
+               prose-headings:scroll-mt-24
+               prose-h2:border-b prose-h2:border-base-300 prose-h2:pb-2
+               prose-p:leading-8
+               prose-li:leading-8
+               prose-pre:border prose-pre:border-base-300"
+      >
+        <Content />
+      </article>
+
+      {
+        (prevPost || nextPost) && (
+          <nav
+            class="mt-12 border-t border-base-300 pt-8"
+            aria-label="記事ページネーション"
+          >
+            <div class="grid gap-4 sm:grid-cols-2">
+              {prevPost ? (
+                <a
+                  href={`/blog/${prevPost.id}/`}
+                  class="group rounded-box border border-base-300 bg-base-100 p-5 transition hover:border-primary hover:bg-base-200/60"
+                >
+                  <div class="text-sm text-base-content/60">← 新しい記事</div>
+                  <div class="mt-2 font-semibold leading-7 transition group-hover:text-primary">
+                    {prevPost.data.title}
+                  </div>
+                  <div class="mt-2 text-sm text-base-content/60">
+                    {formatDate(prevPost.data.pubDate)}
+                  </div>
+                </a>
+              ) : (
+                <div class="hidden sm:block" />
+              )}
+
+              {nextPost ? (
+                <a
+                  href={`/blog/${nextPost.id}/`}
+                  class="group rounded-box border border-base-300 bg-base-100 p-5 text-left transition hover:border-primary hover:bg-base-200/60 sm:text-right"
+                >
+                  <div class="text-sm text-base-content/60">古い記事 →</div>
+                  <div class="mt-2 font-semibold leading-7 transition group-hover:text-primary">
+                    {nextPost.data.title}
+                  </div>
+                  <div class="mt-2 text-sm text-base-content/60">
+                    {formatDate(nextPost.data.pubDate)}
+                  </div>
+                </a>
+              ) : (
+                <div class="hidden sm:block" />
+              )}
+            </div>
+          </nav>
+        )
+      }
+
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-between">
+        <a href="/blog" class="btn btn-outline"> ← 記事一覧へ </a>
+
+        <a href="/tags" class="btn btn-ghost"> タグを見る </a>
+      </div>
+    </div>
+  </section>
+</Layout>

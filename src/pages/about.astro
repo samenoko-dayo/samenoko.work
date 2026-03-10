@@ -1,0 +1,105 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { MessageCircle } from "@lucide/astro"
+---
+
+<Layout
+    title="About"
+    description="このサイトと管理人についての紹介ページです。"
+>
+    <section class="mx-auto max-w-6xl px-4 py-10 md:py-14">
+        <div class="mx-auto max-w-3xl">
+            <header class="mb-10">
+                <p class="text-sm font-medium text-primary">About</p>
+                <h1 class="mt-2 text-4xl font-black md:text-5xl">
+                    このサイトについて
+                </h1>
+                <p class="mt-4 leading-8 text-base-content/75">
+                    このページでは、サイトの概要や管理人について簡単に紹介しています。
+                </p>
+            </header>
+
+            <div class="space-y-6">
+                <section
+                    class="rounded-box border border-base-300 bg-base-100 p-6 md:p-8"
+                >
+                    <h2 class="text-2xl font-bold">管理人</h2>
+                    <p class="mt-4 leading-8 text-base-content/80">
+                        samenokoです。
+                    </p>
+                    <p class="mt-4 leading-8 text-base-content/80">
+                        プログラミング初学者を始めて6年くらい経ちました。<br />
+                        Linuxやweb開発、気になったこととかをまとめていく感じです。
+                    </p>
+                </section>
+
+                <section
+                    class="rounded-box border border-base-300 bg-base-100 p-6 md:p-8"
+                >
+                    <h2 class="text-2xl font-bold">このサイト</h2>
+                    <p class="mt-4 leading-8 text-base-content/80">
+                        このサイトは、技術的な知見の整理と制作記録の保存を目的にした個人ブログです。
+                    </p>
+                    <p class="mt-4 leading-8 text-base-content/80">
+                        開発中に詰まったこと、試してよかった構成、あとで役立ちそうなメモなどを中心に、
+                        無理なく続けられる形で更新していきます。
+                    </p>
+                </section>
+
+                <section
+                    class="rounded-box border border-base-300 bg-base-100 p-6 md:p-8"
+                >
+                    <h2 class="text-2xl font-bold">主に書くこと</h2>
+                    <div class="mt-5 flex flex-wrap gap-2">
+                        <span class="badge badge-outline">Astro</span>
+                        <span class="badge badge-outline">Tailwind CSS</span>
+                        <span class="badge badge-outline">daisyUI</span>
+                        <span class="badge badge-outline">Linux</span>
+                        <span class="badge badge-outline">Python</span>
+                        <span class="badge badge-outline">Tauri</span>
+                        <span class="badge badge-outline">サーバー運用</span>
+                        <span class="badge badge-outline">制作記録</span>
+                    </div>
+                    <p class="mt-5 leading-8 text-base-content/80">
+                        技術メモだけでなく、制作中に考えたことや設計の方針なども書いていく予定です。
+                    </p>
+                </section>
+
+                <section
+                    class="rounded-box border border-base-300 bg-base-100 p-6 md:p-8"
+                >
+                    <h2 class="text-2xl font-bold">環境</h2>
+                    <p class="mt-4 leading-8 text-base-content/80">
+                        普段は Linux を中心に使っています。Web
+                        系の開発やスクリプト、ちょっとした自動化、
+                        サーバーまわりの構成を触るのが好きです。
+                    </p>
+                </section>
+
+                <section
+                    class="rounded-box border border-base-300 bg-base-100 p-6 md:p-8"
+                >
+                    <h2 class="text-2xl font-bold">リンク</h2>
+                    <div class="mt-5 flex flex-wrap gap-3">
+                        <a
+                            href="https://github.com/samenoko-dayo"
+                            class="btn btn-outline btn-sm"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            GitHub
+                        </a>
+                        <a
+                            href="https://misskey.io/@ziaenso"
+                            class="btn btn-success btn-outline btn-sm"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            <MessageCircle class="w-4" /> Misskey
+                        </a>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+</Layout>
