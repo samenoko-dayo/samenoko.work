@@ -1,5 +1,5 @@
 ---
-import { Image } from "astro:assets";
+import { Image, getImage } from "astro:assets";
 import { getCollection, render } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 
@@ -39,12 +39,18 @@ const nextPost =
   currentIndex >= 0 && currentIndex < allPosts.length - 1
     ? allPosts[currentIndex + 1]
     : null;
+
+let ogpSrc = "";
+if (post.data.heroImage) {
+  const img = await getImage({ src: post.data.heroImage, inferSize: true });
+  ogpSrc = img.src;
+}
 ---
 
 <Layout
   title={post.data.title}
   description={post.data.description}
-  ogImage={post.data.heroImage?.src}
+  ogImage={ogpSrc}
   ogType="article"
 >
   <section class="mx-auto w-full max-w-6xl px-4 py-10 md:py-14">

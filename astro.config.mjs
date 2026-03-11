@@ -10,5 +10,6 @@ export default defineConfig({
   image: {
     domains: ["imag.samenoko.work"],
     remotePatterns: [{ protocol: "https" }]
-  }
+  },
+  site: "https://samenoko.work"
 });
