@@ -2,6 +2,7 @@
 import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import remarkBreaks from "remark-breaks";
+import { remarkBlogCard } from "./src/lib/remark-blog-card.mjs";
 
 // https://astro.build/config
 export default defineConfig({
@@ -9,7 +10,7 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   markdown: {
-    remarkPlugins: [remarkBreaks]
+    remarkPlugins: [remarkBlogCard,remarkBreaks]
   },
   image: {
     domains: ["imag.samenoko.work"],
