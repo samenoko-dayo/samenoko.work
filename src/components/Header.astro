@@ -6,7 +6,7 @@ const navItems = [
     { href: "/about", label: "About" },
 ];
 
-const currentPath = Astro.url.pathname;
+const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
 
 import { Sun, Moon } from "@lucide/astro";
 ---

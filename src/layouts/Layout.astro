@@ -21,7 +21,7 @@ const {
 
 const site = Astro.site;
 const ogImageUrl = ogImage && new URL(ogImage,Astro.site?.origin)
-const pageTitle = title === "Blog" ? title : `${title} | Blog`;
+const pageTitle = title === "samenoko.work" ? title : `${title} | samenoko.work`;
 const canonicalUrl = site
     ? new URL(Astro.url.pathname, site).toString()
     : undefined;
