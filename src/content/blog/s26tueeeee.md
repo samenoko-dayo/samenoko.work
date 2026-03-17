@@ -3,6 +3,7 @@ title: Galaxy S26はとても強い。持て余しちゃう。
 description: Galaxy S26を買ったんだけど、持て余してる感じがする。
 pubDate: 2026-03-14T10:09
 updatedDate: 2026-03-14T01:21:30.378Z
+heroImage: "📱"
 tags:
   - tag: ガジェット
   - tag: 雑記

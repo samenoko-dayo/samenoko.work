@@ -38,9 +38,9 @@
           "includeTime": true
         },
         {
-          "type": "image",
+          "type": "text",
           "name": "heroImage",
-          "label": "ヒーロー画像"
+          "label": "ヒーロー絵文字"
         },
 
         {
