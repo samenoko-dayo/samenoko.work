@@ -4,6 +4,7 @@ import Header from "../components/Header.astro";
 import Footer from '../components/Footer.astro';
 import '@fontsource-variable/inter';
 import '@fontsource-variable/noto-sans-jp';
+import twemoji from "twemoji";
 
 interface Props {
     title?: string;
@@ -66,5 +67,20 @@ const canonicalUrl = site
             <slot />
         </main>
         <Footer />
+        <script>
+            import twemoji from "twemoji";
+            const parseTwemoji = () => {
+                twemoji.parse(document.body, {
+                    folder: "svg",
+                    ext: ".svg",
+                    className: "twemoji"
+                });
+            };
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", parseTwemoji, { once: true });
+            } else {
+                parseTwemoji();
+            }
+        </script>
     </body>
 </html>

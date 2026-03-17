@@ -21,6 +21,7 @@
     "open-graph-scraper": "^6.11.0",
     "remark-breaks": "^4.0.0",
     "tailwindcss": "^4.2.1",
+    "twemoji": "^14.0.2",
     "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
