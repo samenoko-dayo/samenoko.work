@@ -2,6 +2,7 @@
 title: "最近ブルアカにハマっている"
 description: ブルアカにハマっているよ～
 pubDate: 2026-03-03
+heroImage: "🎮"
 tags: 
   - tag: "雑記"
 ---

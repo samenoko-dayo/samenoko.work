@@ -2,6 +2,7 @@
 title: "高校の卒業が確定したので3年間やったことを振り返る"
 description: 高校の3年間にやったことを振り返ります。
 pubDate: 2025-12-29
+heroImage: "🎓"
 tags: 
   - tag: "移行記事"
   - tag: "雑記"

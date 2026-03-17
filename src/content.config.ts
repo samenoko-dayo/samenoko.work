@@ -7,13 +7,13 @@ const blog = defineCollection({
     base: "./src/content/blog",
     pattern: "**/*.md",
   }),
-  schema: ({ image }) =>
+  schema: () =>
     z.object({
       title: z.string(),
       description: z.string(),
       pubDate: z.coerce.date(),
       updatedDate: z.coerce.date().optional(),
-      heroImage: image().optional(),
+      heroImage: z.string().emoji().optional(),
       tags: z.array(z.object({tag: z.string()})).default([]),
       draft: z.boolean().default(false),
       author: z.string().default("samenoko"),

@@ -2,6 +2,7 @@
 title: "llama.cppでAIを動かしてみる"
 description: llama.cppでAIを動かしてみたやつ
 pubDate: 2026-03-08
+heroImage: "🤖"
 ---
 
 ## AI

@@ -3,7 +3,7 @@ title: はじめまして！
 description: はじめまして！の記事。
 pubDate: 2026-03-11T02:54
 updatedDate: 2026-03-11T00:58:21.425Z
-heroImage: https://imag.samenoko.work/uploads/1773165406065-a7ax6p.png
+heroImage: "🦈"
 tags:
   - tag: 雑記
 draft: false

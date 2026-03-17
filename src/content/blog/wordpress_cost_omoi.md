@@ -2,6 +2,7 @@
 title: "WordPressは管理コストが重いのでは？"
 description: WordPressは管理コストが重いのでは？
 pubDate: 2026-03-03
+heroImage: "📝"
 tags: 
   - tag: "雑記"
 ---
