@@ -8,8 +8,8 @@ const posts = allPosts.sort(
     (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
 );
 
-const featuredPosts = posts.filter((post) => post.data.featured).slice(0, 3);
-const latestPosts = posts.slice(0, 3);
+const featuredPosts = posts.filter((post) => post.data.featured).slice(0, 6);
+const latestPosts = posts.slice(0, 6);
 const displayPosts = featuredPosts.length > 0 ? featuredPosts : latestPosts;
 
 const allTags = [
@@ -97,13 +97,6 @@ const formatDate = (date: Date) =>
                         最近公開した記事や、まず読んでほしい記事です。
                     </p>
                 </div>
-
-                <a
-                    href="/blog"
-                    class="link link-hover text-sm font-medium text-primary"
-                >
-                    すべて見る
-                </a>
             </div>
 
             {
@@ -162,6 +155,7 @@ const formatDate = (date: Date) =>
                     </div>
                 )
             }
+            <a href="/blog" class="btn-primary btn">すべて見る →</a>
         </section>
 
         <section class="rounded-box border border-base-300 bg-base-100 p-6">

@@ -1,7 +1,10 @@
 import type { APIRoute, GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
+import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import sharp from "sharp";
+import satori from "satori";
+import { Resvg } from "@resvg/resvg-js";
+import { html } from "satori-html";
 
 export const prerender = true;
 
@@ -13,28 +16,53 @@ type Props = {
 
 const WIDTH = 1200;
 const HEIGHT = 630;
-const FONT_FILE_PATH = resolve(process.cwd(), "src/assets/fonts/NotoSansJP.ttf");
-const CONTENT_X = 112;
+const FONT_400_PATH = resolve(
+    process.cwd(),
+    "src/assets/fonts/NotoSansJP-Regular.ttf",
+);
+const FONT_700_PATH = resolve(
+    process.cwd(),
+    "src/assets/fonts/NotoSansJP-Bold.ttf",
+);
+let fontDataPromise: Promise<{ regular: ArrayBuffer; bold: ArrayBuffer }> | null =
+    null;
 
 const trimText = (value: string, maxLength: number) =>
     value.length > maxLength ? `${value.slice(0, maxLength - 3)}...` : value;
 
-const escapePango = (value: string) =>
-    value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+const escapeHtml = (value: string) =>
+    value
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll("\"", "&quot;")
+        .replaceAll("'", "&#39;");
 
-const createBackgroundSvg = () => `
-<svg width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#0b1220" />
-      <stop offset="100%" stop-color="#111827" />
-    </linearGradient>
-  </defs>
-  <rect width="100%" height="100%" fill="url(#bg)" />
-  <rect x="52" y="52" width="1096" height="526" rx="28" fill="#0f172a" fill-opacity="0.7" stroke="#334155" stroke-width="2" />
-  <rect x="52" y="116" width="1096" height="2" fill="#1e293b" />
-</svg>
-`;
+const getFontData = async () => {
+    if (!fontDataPromise) {
+        fontDataPromise = (async () => {
+            const [regularRaw, boldRaw] = await Promise.all([
+                readFile(FONT_400_PATH),
+                readFile(FONT_700_PATH),
+            ]);
+            const regularView = new Uint8Array(regularRaw);
+            const boldView = new Uint8Array(boldRaw);
+
+            return {
+                regular: regularView.buffer.slice(
+                    regularView.byteOffset,
+                    regularView.byteOffset + regularView.byteLength,
+                ),
+                bold: boldView.buffer.slice(
+                    boldView.byteOffset,
+                    boldView.byteOffset + boldView.byteLength,
+                ),
+            };
+        })();
+    }
+
+    return fontDataPromise;
+};
 
 export const getStaticPaths = (async () => {
     const posts = await getCollection("blog", ({ data }) => {
@@ -57,71 +85,51 @@ export const getStaticPaths = (async () => {
 
 export const GET: APIRoute = async ({ props }) => {
     const { title, description, publishedAt } = props as Props;
-    const safeTitle = escapePango(trimText(title, 72));
-    const safeDescription = escapePango(trimText(description, 110));
-    const safePublishedAt = escapePango(publishedAt);
+    const safeTitle = escapeHtml(trimText(title, 72));
+    const safeDescription = escapeHtml(trimText(description, 110));
+    const safePublishedAt = escapeHtml(publishedAt);
+    const fontData = await getFontData();
 
-    const png = await sharp(Buffer.from(createBackgroundSvg()))
-        .composite([
+    const markup = html(`
+<div style="width: 1200px; height: 630px; display: flex; background: #0b1220; padding: 52px; box-sizing: border-box;">
+  <div style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #334155; border-radius: 24px; background: #111827; padding: 56px; box-sizing: border-box;">
+    <div style="display: flex; flex-direction: column; gap: 26px;">
+      <div style="font-size: 24px; color: #93c5fd; font-weight: 700;">samenoko.work</div>
+      <div style="font-size: 52px; line-height: 1.28; color: #f8fafc; font-weight: 700;">${safeTitle}</div>
+      <div style="font-size: 28px; line-height: 1.5; color: #cbd5e1;">${safeDescription}</div>
+    </div>
+    <div style="font-size: 22px; color: #94a3b8;">${safePublishedAt}</div>
+  </div>
+</div>
+`);
+
+    const svg = await satori(markup, {
+        width: WIDTH,
+        height: HEIGHT,
+        fonts: [
             {
-                input: {
-                    text: {
-                        text: "<span foreground=\"#93c5fd\">samenoko.work</span>",
-                        font: "Noto Sans JP Bold 22",
-                        fontfile: FONT_FILE_PATH,
-                        width: 980,
-                        rgba: true,
-                        dpi: 72,
-                    },
-                },
-                left: CONTENT_X,
-                top: 78,
+                name: "Noto Sans JP",
+                data: fontData.regular,
+                weight: 400,
+                style: "normal",
             },
             {
-                input: {
-                    text: {
-                        text: `<span foreground="#f8fafc">${safeTitle}</span>`,
-                        font: "Noto Sans JP Bold 36",
-                        fontfile: FONT_FILE_PATH,
-                        width: 980,
-                        rgba: true,
-                        dpi: 72,
-                    },
-                },
-                left: CONTENT_X,
-                top: 170,
+                name: "Noto Sans JP",
+                data: fontData.bold,
+                weight: 700,
+                style: "normal",
             },
-            {
-                input: {
-                    text: {
-                        text: `<span foreground="#cbd5e1">${safeDescription}</span>`,
-                        font: "Noto Sans JP 22",
-                        fontfile: FONT_FILE_PATH,
-                        width: 980,
-                        rgba: true,
-                        dpi: 72,
-                    },
-                },
-                left: CONTENT_X,
-                top: 356,
-            },
-            {
-                input: {
-                    text: {
-                        text: `<span foreground="#94a3b8">Published ${safePublishedAt}</span>`,
-                        font: "Noto Sans JP 18",
-                        fontfile: FONT_FILE_PATH,
-                        width: 980,
-                        rgba: true,
-                        dpi: 72,
-                    },
-                },
-                left: CONTENT_X,
-                top: 520,
-            },
-        ])
-        .png()
-        .toBuffer();
+        ],
+    });
+
+    const png = new Resvg(svg, {
+        fitTo: {
+            mode: "width",
+            value: WIDTH,
+        },
+    })
+        .render()
+        .asPng();
     const body = new Uint8Array(png);
 
     return new Response(body, {
