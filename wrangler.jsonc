@@ -6,7 +6,7 @@
         "directory": "./dist"
     },
     "route": {
-        "pattern": "samenoko.work",
+        "pattern": "blog.samenoko.work",
         "custom_domain": true
     }
 }
