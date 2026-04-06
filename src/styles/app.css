@@ -2,8 +2,13 @@
 @plugin "daisyui";
 @plugin "@tailwindcss/typography";
 
+html {
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+}
+
 @theme {
-    --default-font-family: 'Inter', 'Inter Variable', 'Noto Sans JP', 'Noto Sans JP Variable', sans-serif;
+  --default-font-family: 'Inter', 'Inter Variable', 'Noto Sans JP', 'Noto Sans JP Variable', sans-serif;
 }
 
 img.twemoji {

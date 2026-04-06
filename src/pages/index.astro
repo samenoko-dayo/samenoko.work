@@ -34,12 +34,6 @@ const formatDate = (date: Date) =>
         >
             <div class="hero-content w-full px-6 py-10 md:px-10 md:py-16">
                 <div class="max-w-3xl w-full">
-                    <div class="mb-4">
-                        <span class="badge badge-primary badge-outline"
-                            >Personal Blog</span
-                        >
-                    </div>
-
                     <h1 class="text-4xl font-black leading-tight md:text-5xl">
                         プログラミング初学者が<br />
                         <span class="text-primary">適当に書いているブログ</span>
@@ -60,35 +54,6 @@ const formatDate = (date: Date) =>
             </div>
         </div>
 
-        <section class="grid gap-4 md:grid-cols-3">
-            <div class="card border border-base-300 bg-base-100 shadow-sm">
-                <div class="card-body">
-                    <h2 class="card-title text-lg">技術メモ</h2>
-                    <p class="text-sm text-base-content/70">
-                        開発中に詰まったことや、あとで見返したい備忘録的なものを残します。
-                    </p>
-                </div>
-            </div>
-
-            <div class="card border border-base-300 bg-base-100 shadow-sm">
-                <div class="card-body">
-                    <h2 class="card-title text-lg">制作記録</h2>
-                    <p class="text-sm text-base-content/70">
-                        アプリやサイトなどの制作記録をまとめます。
-                    </p>
-                </div>
-            </div>
-
-            <div class="card border border-base-300 bg-base-100 shadow-sm">
-                <div class="card-body">
-                    <h2 class="card-title text-lg">日々のログ</h2>
-                    <p class="text-sm text-base-content/70">
-                        どうでもいい極めて個人的な記録です。
-                    </p>
-                </div>
-            </div>
-        </section>
-
         <section class="flex flex-col gap-5">
             <div class="flex items-end justify-between gap-4">
                 <div>
@@ -106,7 +71,9 @@ const formatDate = (date: Date) =>
                             <article class="overflow-hidden rounded-box border border-base-300 bg-base-100 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
                                 {post.data.heroImage && (
                                     <div class="flex h-48 items-center justify-center border-b border-base-300 bg-base-200 text-7xl">
-                                        <span aria-label="ヒーロー絵文字">{post.data.heroImage}</span>
+                                        <span aria-label="ヒーロー絵文字">
+                                            {post.data.heroImage}
+                                        </span>
                                     </div>
                                 )}
 
