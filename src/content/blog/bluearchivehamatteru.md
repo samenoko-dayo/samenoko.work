@@ -1,10 +1,12 @@
 ---
-title: "最近ブルアカにハマっている"
+title: 最近ブルアカにハマっている
 description: ブルアカにハマっているよ～
 pubDate: 2026-03-03
-heroImage: "🎮"
-tags: 
-  - tag: "雑記"
+updatedDate: 2026-04-06T00:40:22.912Z
+heroImage: 🎮
+tags:
+  - tag: 雑記
+draft: false
 ---
 
 ## ブルーアーカイブ！
