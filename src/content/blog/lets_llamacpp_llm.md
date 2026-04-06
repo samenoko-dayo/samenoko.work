@@ -1,8 +1,10 @@
 ---
-title: "llama.cppでAIを動かしてみる"
+title: llama.cppでAIを動かしてみる
 description: llama.cppでAIを動かしてみたやつ
 pubDate: 2026-03-08
-heroImage: "🤖"
+updatedDate: 2026-04-06T00:40:45.447Z
+heroImage: 🤖
+draft: false
 ---
 
 ## AI
